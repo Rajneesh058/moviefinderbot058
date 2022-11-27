@@ -12,9 +12,9 @@ def is_enabled(value, default):
 
 # Bot information
 SESSION = environ.get('SESSION', 'Media_search')
-API_ID = int(environ.get('API_ID',"18293272"))
-API_HASH = environ['API_HASH', "46b802cadbce8893e42fbe40dbe4d08f"]
-BOT_TOKEN = environ['BOT_TOKEN', "5400521707:AAF1tGW6f8l1SYOK_JwUZR_hwW-DQ5NiZSc"]
+API_ID = int(environ.get['API_ID'])
+API_HASH = environ['API_HASH']
+BOT_TOKEN = environ['BOT_TOKEN']
 
 # Bot settings
 CACHE_TIME = int(environ.get('CACHE_TIME', 0))
@@ -49,7 +49,7 @@ SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'F_pitara')
 P_TTI_SHOW_OFF = is_enabled((environ.get('P_TTI_SHOW_OFF', "True")), True)
 IMDB = is_enabled((environ.get('IMDB', "True")), True)
 SINGLE_BUTTON = is_enabled((environ.get('SINGLE_BUTTON', "True")), True)
-CUSTOM_FILE_CAPTION = environ.get("CUSTOM_FILE_CAPTION", "🤗 ʜᴇʟʟᴏ 👋                  FILE : <code>{file_name}</code>                Size : <i>{file_size}</i>          ʜᴇʀᴇ'ꜱ ᴛʜᴇ 🎭ᴍᴏᴠɪᴇ🎭 ᴡʜɪᴄʜ ʏᴏᴜ ᴀꜱᴋᴇᴅ ꜰᴏʀ.         ᴛʜɪꜱ ᴍᴏᴠɪᴇ ɪꜱ ᴜᴘʟᴏᴀᴅᴇᴅ ꜰʀᴏᴍ - FILMY_PITARA            ʙᴏᴛ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ - EPIC Creation Bots")
+CUSTOM_FILE_CAPTION = environ.get("CUSTOM_FILE_CAPTION")
 BATCH_FILE_CAPTION = environ.get("BATCH_FILE_CAPTION", CUSTOM_FILE_CAPTION)
 IMDB_TEMPLATE = environ.get("IMDB_TEMPLATE", "<b>Query: {query}</b> \n‌‌‌‌IMDb Data:\n\n🏷 Title: <a href={url}>{title}</a>\n🎭 Genres: {genres}\n📆 Year: <a href={url}/releaseinfo>{year}</a>\n🌟 Rating: <a href={url}/ratings>{rating}</a> / 10")
 LONG_IMDB_DESCRIPTION = is_enabled(environ.get("LONG_IMDB_DESCRIPTION", "False"), False)
