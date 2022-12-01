@@ -1,9 +1,10 @@
 import logging
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
-from info import AUTH_CHANNEL, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM
+from info import AUTH_CHANNEL, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM, SHORTENER_API, LONG_DROPLINK_URL
 from imdb import IMDb
 import asyncio
-from pyrogram.types import Message
+from pyrogram.types import Message, InlineKeyboardButton
+from pyrogram import enums
 from typing import Union
 import re
 import os
@@ -13,6 +14,7 @@ from pyrogram.types import InlineKeyboardButton
 from database.users_chats_db import db
 from bs4 import BeautifulSoup
 import requests
+import shortzy
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -225,7 +227,7 @@ def extract_user(message: Message) -> Union[int, str]:
     elif len(message.command) > 1:
         if (
             len(message.entities) > 1 and
-            message.entities[1].type == "text_mention"
+            message.entities[1].type == enums.MessageEntityType.TEXT_MENTION
         ):
            
             required_entity = message.entities[1]
@@ -259,18 +261,18 @@ def last_online(from_user):
     time = ""
     if from_user.is_bot:
         time += "🤖 Bot :("
-    elif from_user.status == 'recently':
+    elif from_user.status == enums.UserStatus.RECENTLY:
         time += "Recently"
-    elif from_user.status == 'within_week':
+    elif from_user.status == enums.UserStatus.LAST_WEEK:
         time += "Within the last week"
-    elif from_user.status == 'within_month':
+    elif from_user.status == enums.UserStatus.LAST_MONTH:
         time += "Within the last month"
-    elif from_user.status == 'long_time_ago':
+    elif from_user.status == enums.UserStatus.LONG_AGO:
         time += "A long time ago :("
-    elif from_user.status == 'online':
+    elif from_user.status == enums.UserStatus.ONLINE:
         time += "Currently Online"
-    elif from_user.status == 'offline':
-        time += datetime.fromtimestamp(from_user.last_online_date).strftime("%a, %d %b %Y, %H:%M:%S")
+    elif from_user.status == enums.UserStatus.OFFLINE:
+        time += from_user.last_online_date.strftime("%a, %d %b %Y, %H:%M:%S")
     return time
 
 
@@ -375,3 +377,14 @@ def humanbytes(size):
         size /= power
         n += 1
     return str(round(size, 2)) + " " + Dic_powerN[n] + 'B'
+
+
+
+shortz = shortzy.Shortzy(SHORTENER_API, "afly.in")
+async def get_shortlink(link):
+    if SHORTENER_API:
+        if LONG_DROPLINK_URL == "True" or LONG_DROPLINK_URL is True:
+            return await shortz.get_quick_link(link)
+        else:
+            return await shortz.convert(link, silently_fail=False)
+    return link
