@@ -1,4 +1,4 @@
-git+https://github.com/subinps/pyrogram@inline-m
+pyrogram>=2.0.30
 tgcrypto
 pymongo[srv]==3.11.4
 motor==2.4.0
@@ -9,6 +9,7 @@ requests
 bs4
 Pyromod
 imdbpy==2021.4.18
+shortzy
 youtube-dl
 youtube_search
 requests
